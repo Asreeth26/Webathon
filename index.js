@@ -9,6 +9,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDD4PiP8lNMSCEFxVnijuQ1G3SG1dfWmeo",
     authDomain: "webathon-327a7.firebaseapp.com",
+    databaseURL: "https://webathon-327a7-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "webathon-327a7",
     storageBucket: "webathon-327a7.appspot.com",
     messagingSenderId: "148161110223",
@@ -25,9 +26,7 @@ const analytics = getAnalytics(app);
 
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 const sub = document.getElementById("Sub");
-sub.addEventListener("click",(event)=>
-
-{
+sub.addEventListener("click", (event) => {
     event.preventDefault();
     console.log('asff')
     const auth = getAuth();
@@ -45,7 +44,7 @@ sub.addEventListener("click",(event)=>
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode);
+            alert(errorCode);
             console.log(errorMessage);
             // ..
         });
@@ -53,4 +52,48 @@ sub.addEventListener("click",(event)=>
 });
 
 
-console.log('bye')
+console.log('byefghiol')
+
+
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getDatabase,ref,set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+const sub1 = document.getElementById("Sub_1");
+sub1.addEventListener("click", (event) => {
+    event.preventDefault();
+    const auth = getAuth();
+    const email1 = document.getElementById('email_1').value;
+    const pass1 = document.getElementById('pass_1').value;
+
+
+    signInWithEmailAndPassword(auth, email1, pass1)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            function writeUserData(userId, name, email) {
+                
+                const db = getDatabase();
+
+                set(ref(db, 'users/' + userId), {
+                  username: name,
+                  email: email,
+                  
+                }).catch((error)=>console.log(error));
+                console.log('sasdasd');
+                
+              }
+            writeUserData("UID123","Ash","asreethp@gmail.com");
+            window.location.href = 'home.html';
+
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode)
+            console.log(errorMessage)
+        });
+
+
+})
+
+
